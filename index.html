@@ -1,16 +1,475 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp by Nature - Case Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .document {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .document::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .developer-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .roles {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .role-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            text-align: justify;
+        }
+
+        .pain-points, .solutions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .pain-points ul, .solutions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pain-points li, .solutions li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        .pain-points li::before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .solutions li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+            border-radius: 17px;
+            z-index: -1;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .responsibilities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .responsibility-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .responsibility-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .responsibility-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .link-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .link-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .timeline {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .roles {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: none;
+                padding: 0;
+            }
+
+            .document {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  Hello world
-  <script src="script.js"></script>
-</body>
+    <div class="container">
+        <div class="document">
+            <div class="header">
+                <img src="http://jasminep70.sg-host.com/wp-content/uploads/2025/07/GlowUp-by-Nature-Logo.png" alt="GlowUp by Nature Logo" class="logo">
+                <h1>GlowUp by Nature</h1>
+                <div class="subtitle">Web & Email Marketing Campaign</div>
+                <div class="developer-name">Developed by Jasmine R. Parker</div>
+                <div class="roles">
+                    <span class="role-tag">Web Developer</span>
+                    <span class="role-tag">Email Developer</span>
+                    <span class="role-tag">Brand Designer</span>
+                    <span class="role-tag">Marketing Strategist</span>
+                </div>
+            </div>
 
+            <div class="content">
+                <div class="section">
+                    <h2>🔎 Overview</h2>
+                    <p>This case study was created to demonstrate my end-to-end expertise as a <strong>Web & Email Developer</strong>, <strong>Brand Designer</strong>, and <strong>Marketing Strategist</strong>. For this mock project, I helped bring structure, visibility, and conversion strategy to a fictional clean skincare brand, <em>GlowUp by Nature</em> — targeted at women seeking intentional self-care through holistic skincare rituals.</p>
+                </div>
+
+                <div class="section">
+                    <h2>💬 Client Pain Points</h2>
+                    <div class="pain-points">
+                        <ul>
+                            <li>Existing website had no SEO traction or keyword strategy</li>
+                            <li>No lead magnet or digital product to attract or capture leads</li>
+                            <li>Sole reliance on social media for community growth and traffic</li>
+                            <li>No email service provider (ESP) setup, nor any nurture or sales sequences</li>
+                            <li>No cohesive visual brand or content journey to support product storytelling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>✅ Solutions Delivered</h2>
+                    <div class="solutions">
+                        <ul>
+                            <li><strong>Landing Page & Redirect Page</strong> – Built using WordPress and Divi, fully responsive and SEO-optimized, with embedded form connected to a confirmation page for tracking behavior via UTM tags</li>
+                            <li><strong>Free Lead Magnet (7-Day Glow Guide)</strong> – Conceptualized and designed to resonate with the target audience while introducing the brand's voice and value</li>
+                            <li><strong>Branded Email Series (x5)</strong> – HTML-coded and visually designed with Canva banners, all structured around a conditional logic journey to segment warm and cold leads</li>
+                            <li><strong>ESP Strategy</strong> – Created a full funnel-ready nurture sequence that introduces the brand, invites engagement (Facebook group), reinforces the ritual, and builds community loyalty</li>
+                            <li><strong>SEO Copywriting & Content Strategy</strong> – Wrote search-friendly, conversion-optimized copy for both the website and emails, implementing meta best practices and CTA-focused writing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>✨ Why the Lead Magnet Matters</h3>
+                    <p>The 7-Day Glow Guide wasn't just a design asset — it was a <strong>strategic solution</strong> to establish the brand as an authority in its niche. Educational lead magnets:</p>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li>Attract high-intent visitors organically</li>
+                        <li>Establish trust while solving a specific need</li>
+                        <li>Encourage opt-ins without sales pressure</li>
+                        <li>Give Google & search engines fresh content to crawl, improving domain authority</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>📬 Why Email Marketing Matters</h3>
+                    <p>By implementing an ESP and behavior-based email journey:</p>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li>The brand now has a consistent touchpoint beyond social media</li>
+                        <li>Subscribers are guided from awareness to engagement with personalized experiences</li>
+                        <li>Segmentation (warm/cold) ensures targeted follow-ups</li>
+                        <li>Email contributes to SEO through increased traffic and brand signals when paired with content-rich landing pages</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>🛠️ My Responsibilities</h2>
+                    <div class="responsibilities">
+                        <div class="responsibility-item">
+                            <h4>Logo & Brand Creation</h4>
+                            <p>Designed visual identity, logo, and Canva banner assets</p>
+                        </div>
+                        <div class="responsibility-item">
+                            <h4>Landing Page & Redirect Page Dev</h4>
+                            <p>Custom-built using Divi Builder with styled forms and custom code</p>
+                        </div>
+                        <div class="responsibility-item">
+                            <h4>Email Design & Development</h4>
+                            <p>Hand-coded using best practices in BEE Pro, then tested across clients for responsiveness</p>
+                        </div>
+                        <div class="responsibility-item">
+                            <h4>Marketing & ESP Strategy</h4>
+                            <p>Created full conditional logic journey with tag-based segmentation and clear KPIs</p>
+                        </div>
+                        <div class="responsibility-item">
+                            <h4>Content Strategy</h4>
+                            <p>SEO-driven copywriting for every stage of the funnel: landing page, emails, and lead magnet</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        <strong>Project Completion Timeline:</strong> Entire campaign created in under 7 days
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🔗 Live Previews</h2>
+                    <div class="links">
+                        <a href="http://jasminep70.sg-host.com/" class="link-item">
+                            🌐 Landing Page
+                        </a>
+                        <a href="http://jasminep70.sg-host.com/thank-you/" class="link-item">
+                            ✅ Redirect Page
+                        </a>
+                        <a href="https://github.com/yourgithub/GlowUpEmails" class="link-item">
+                            💌 Email Repository
+                        </a>
+                        <a href="https://replit.com/@yourusername/GlowUpEmails" class="link-item">
+                            📩 Email Previews
+                        </a>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>📈 Relevant to AEM & Web Dev Roles</h2>
+                    <div class="solutions">
+                        <ul>
+                            <li>Authoring reusable and styled content blocks like banners, forms, and layout sections</li>
+                            <li>Experience building scalable components with CMS systems (like Divi, transferable to AEM)</li>
+                            <li>Understanding user segmentation, ESP journey planning, and tag logic (Adobe Target parallel)</li>
+                            <li>Demonstrates strong UX/UI awareness across responsive platforms</li>
+                            <li>Experience managing content, design, and strategy under deadline — solo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>Portfolio Case Study | Jasmine R. Parker | Created to demonstrate comprehensive web development and marketing expertise</p>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
