@@ -28,3 +28,5 @@ waitForPort = 80
 [[ports]]
 localPort = 80
 externalPort = 80
+
+run = "python3 -m http.server"
